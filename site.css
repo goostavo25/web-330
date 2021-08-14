@@ -1,0 +1,67 @@
+/*
+    Title: site.css
+    Author: Gustavo Roo Gonzalez
+    Date: 14 August 2021
+    Description: Styling for WEB 330 HTML files.
+ */
+
+#container {
+    margin: 50px 100px auto 100px;
+}
+
+#icon-mode:hover {
+    cursor: pointer;
+}
+
+#icon-text {
+    padding-left: 10px;
+}
+
+.pull-right {
+    float: right;
+}
+
+.assign-container {
+    padding: 10px;
+}
+
+.assign-content {
+    width: 600px;
+    margin: 3% auto 0;
+}
+
+.assign-results-text {
+    text-align: center;
+    font-size: 28px;
+}
+
+.app-header {
+    text-align: center;
+    font-weight: 400;
+}
+
+.return-home {
+    color: #4F3674;
+    text-decoration: none;
+}
+
+.return-home:hover {
+    background-color: #D6A800;
+}
+
+.return-home:visited {
+    color: #3C275A;
+}
+
+.form {
+    display: inline-grid;
+    grid-template-columns: auto;
+}
+
+.form-field {
+    padding: 20px;
+}
+
+.full-width {
+    width: 100%;
+}

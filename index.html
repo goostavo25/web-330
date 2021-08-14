@@ -1,0 +1,118 @@
+<!-- 
+=====================================================================
+; Title:  index.html
+; Author: Gustavo Roo Gonzalez
+; Date:  14 August 2021
+; Description: Landing Page Enterprise JavaScript II
+; References:
+; Light/Dark Mode Script: https://github.com/buwebdev/web-330/blob/master/week-0/theme.html
+;====================================================================
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>WEB 231 - Enterprise JavaScript II</title>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS styling and fonts-->
+
+    <link href="site.css" type="text/css" rel="stylesheet" />
+    <link href="theme.css" type="text/css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;700&family=Quattrocento:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- JS code for SetDefaultTheme()-->
+    <script src="theme.js"></script>
+
+</head>
+
+<body class="light-theme" onload="clearLocalStorage()">
+
+    <!-- Toggle Between Light/Dark Mode-->
+    <i onclick="toggleMode(this)" id="icon-mode" class="fa fa-toggle-off pull-right" style="font-size: 28px; margin-right: 100px; margin-top: 30px;"><span id="icon-text"></span></i>
+    <br>
+
+    <div id="container">
+
+        <!-- Site Title -->
+        <h1>Gustavo Roo Gonzalez's Landing Page</h1>
+        <h2>WEB 231 Enterprise JavaScript I</h2>
+
+        <hr>
+
+        <!-- Site Content/Links -->
+        <h3>Weekly Assignments</h3>
+
+        <ul>
+            <li><a href="#">Assignment 2.2</a></li>
+            <li><a href="#">Assignment 3.2</a></li>
+            <li><a href="#">Assignment 4.2</a></li>
+            <li><a href="#">Assignment 5.2</a></li>
+            <li><a href="#">Assignment 6.2</a></li>
+            <li><a href="#">Assignment 7.2</a></li>
+            <li><a href="#">Assignment 8.2</a></li>
+            <li><a href="#">Assignment 9.2</a></li>
+        </ul>
+
+        <h3>Projects</h3>
+        <ul>
+            <li>Personal Portfolio</li>
+            <li><a href="../web-231/index.html">WEB 231's Landing Page</a></li>
+        </ul>
+
+        <h4>Important Links</h4>
+        <ul>
+            <li><a href="https://github.com/buwebdev/web-330 " target="_blank">WEB 330’s GitHub Repository</a></li>
+            <li><a href="https://bruinconnect.bellevue.edu/" target="_blank">BRUIN Connect</a></li>
+            <li><a href="https://validator.w3.org/" target="_blank">W3C HTML Validator</a></li>
+            <li><a href="http://jigsaw.w3.org/css-validator/" target="_blank">W3C CSS Validator</a></li>
+            <li><a href="https://www.w3schools.com/html/" target="_blank">HTML Tutorial</a></li>
+            <li><a href="https://www.w3schools.com/js/js_best_practices.asp" target="_blank">JavaScript Best Practices</a></li>
+
+        </ul>
+
+        <script>
+            // Set the default theme to 'light' if none is set in the browsers localStorage
+            setDefaultTheme();
+
+            // Function to switch the users selected website theme
+            function toggleMode(x) {
+                let colorTheme = document.body.classList; // get the body's CSS class
+                let iconMode = x.classList; // get the current classes assigned to the triggered button
+
+                // If the current body class is set to the light-theme, update the user's preference to the dark-theme in the browsers local storage
+
+                if (colorTheme.value === "light-theme") {
+                    localStorage.clear();
+                    localStorage.setItem("mode", "dark-theme");
+                    localStorage.setItem("iconMode", "fa-toggle-on");
+                    localStorage.setItem("iconText", "Dark Mode");
+                }
+
+                // If the current body class is set to the dark-theme, update the user's preference to the light-theme in the browsers local storage.
+                else {
+                    localStorage.clear();
+                    localStorage.setItem("mode", "light-theme");
+                    localStorage.setItem("iconMode", "fa-toggle-off");
+                    localStorage.setItem("iconText", "Light Mode");
+                }
+
+                // Apply the updated selection to the HTML site elements
+
+                colorTheme.value = localStorage.getItem("mode");
+                iconMode.value = `fa ${localStorage.getItem("iconMode")} pull-right`;
+                document.getElementById("icon-text").innerHTML = localStorage.getItem("iconText");
+            }
+        </script>
+
+    </div>
+
+</body>
+
+</html>
