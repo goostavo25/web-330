@@ -1,2 +1,4 @@
-# web-330
-Enterprise JavaScript II
+# Enterprise JavaScript II
+## Contributors
+* Professor Peter Itskovich
+* Gustavo Roo Gonzalez
