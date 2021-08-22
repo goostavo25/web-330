@@ -1,0 +1,137 @@
+<!-- 
+=====================================================================
+; Title:  roogonzalez-palindrome.html
+; Author: Gustavo Roo Gonzalez
+; Date:  21 August 2021
+; Description: Palindrome Checker App / Assignment 2.2
+; References:
+; Date constructor: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date
+; String Split: https://www.w3schools.com/jsref/jsref_split.asp
+; Array Reverse: https://www.w3schools.com/jsref/jsref_reverse.asp
+; Array Join: https://www.w3schools.com/jsref/jsref_join.asp
+;====================================================================
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<!--Head section/links-->
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="../site.css" rel="stylesheet">
+    <link href="../theme.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>Web 330 - Enterprise JavaScript II</title>
+
+</head>
+
+<!--Site Title Section-->
+
+<body class="light-theme">
+    <div id="container">
+        <h1 class="app-header">
+            Welcome to the Palindrome App!
+        </h1>
+        <div class="assign-content">
+
+            <!--User Input Section-->
+            <div class="card">
+                <div class="card-title">Palindrome Checker</div>
+                <div class="card-content">
+                    <div class="form">
+                        <!--Form where user to enters text-->
+                        <div class="form-field">
+                            Phrase Value:
+                            <input id="txtPhrase" class="input" type="text">
+                        </div>
+                        <!--Button with on-click event to check the text entered-->
+                        <div class="form-field">
+                            <button id="btnCheckPhrase" class="btn btn-primary full width" onclick="checkInput()">Check Phrase</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Link to landing page-->
+            <a class="return-home" href="../index.html">Return</a>
+        </div>
+
+        <!--Results Section-->
+        <div class="assign-content">
+            <div class="card">
+                <!--Title for the results card-->
+                <div class="card-title">Palindrome Results</div>
+                <!--Results from JS functions-->
+                <div class="card-content" id="assign-results"></div>
+                <div class="assign-results-text" id="assign-results-header"></div>
+            </div>
+        </div>
+    </div>
+
+    <!--JavaScript Section-->
+
+    <script>
+        //Function to generate current date. 
+        function getTodaysDate() {
+            return new Date().toLocaleDateString("en-US");
+        }
+
+        //Function that puts a numerical value to the length of the text inputted 
+        function getLength(string) {
+            return string.length
+        }
+
+        //Function that takes/splits/reverse string, and puts it back together. 
+        function reverse(string) {
+            return string.split("").reverse().join("");
+
+        }
+
+        //Function that compares original/reversed strings to determine if word is palindrome
+        function isPalindrome(string) {
+            let results = "";
+            if (string === reverse(string)) {
+                results = string + " <u><b>is</b></u> " + "a palindrome!";
+            } else {
+                results = string + " <u><b>is not</b></u> " + "a palindrome!";
+            }
+
+            //Binding this to the assign-results-header, telling the user if the text is palindrome or not.
+            document.getElementById("assign-results-header").innerHTML = results;
+        }
+
+        //This function calls the multiple functions above to their proper place on the page when the user clicks the button.
+        function checkInput() {
+
+            //Variable for txtPhrase value
+            let txtPhrase = document.getElementById("txtPhrase").value.toLowerCase();
+
+            //Constant for today's date
+            const today = getTodaysDate();
+
+            //Constant for length of string
+            const len = getLength(txtPhrase);
+
+            //Variable for string reversed
+            let reversedPhrase = reverse(txtPhrase);
+
+            //Variable for combinations of values above for results card
+            let header = "Date: " + today + "<br>" + "Original Phrase: " + txtPhrase + "<br>" + "Reversed Phrase: " + reversedPhrase + "<br>" + "Phrase Length: " + len;
+
+            //Binds info to results section
+            document.getElementById("assign-results").innerHTML = header;
+            isPalindrome(txtPhrase);
+        }
+    </script>
+
+    <script src="../theme.js" type="application/javascript"></script>
+
+</body>
+
+</html>
