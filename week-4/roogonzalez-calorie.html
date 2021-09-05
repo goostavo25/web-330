@@ -1,0 +1,150 @@
+<!--
+    Title: roogonzalez-calorie.html
+    Author: Gustavo Roo Gonzalez
+    Date: 05 September 2021
+    Description: Assignment 4.2 roogonzalez-calorie.html file.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <!--Head section with links to CSS pages, google fonts, and title.-->
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="../site.css" rel="stylesheet">
+        <link href="../theme.css" rel="stylesheet">
+        <link href="roogonzalez-calorie.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <title>Web 330 - Enterprise JavaScript II</title>
+
+    </head>
+
+    <!--Application section-->
+   
+    <body class="light-theme">
+        <div class="container">
+            <!--Header of application-->
+            <h1 class="app-header">Welcome To the Calorie App!</h1>
+            <div class="assign-content">
+                <div class="card">
+                    <!--Title for main card-->
+                    <div class="card-title">Calorie Search Form</div>
+                    <div class="card-content">
+                        <div class="form">
+                            <!--Text Input section-->
+                            <div class="form-field">
+                                <label for="foodItem">Enter a food item:</label>
+                                <input type="text" class="input" id="txtFoodItem">
+                                <span id="foodList"></span>
+                            </div>
+                            <!--Search Button section-->
+                            <div class="form-field">
+                                <button class="btn btn-primary full-width" id="btnSearch">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                
+                <!--Return to home link-->
+                <a class="return-home" href="../index.html">Return</a>
+            
+            </div>
+            <br />
+ 
+            <!--Section where results are displayed-->
+
+            <div class="assign-content">
+                <div class="card">
+                    <div class="card-title">Search Results</div>
+                    <div class="card-content" id="searchResults" >
+                        <table>
+                            <thead>
+                                
+                            </thead>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Javascript Code Section-->
+
+        <script type="application/javascript" src="../theme.js"></script>
+        <script type="module">
+
+            setSelectedTheme();
+
+            // Imports the calorie converter module
+            import { CalorieConverter } from "./calorie-converter.js";
+
+            // Declaring the txtFoodItemE1 variable
+            let txtFoodItemEl = document.getElementById("txtFoodItem");
+            
+            //Function performed when the search button nis clicked
+            document.getElementById("btnSearch").onclick = function()
+            {
+            
+            // Declaring txtFoodItem variable
+            let txtFoodItem = txtFoodItemEl.value;
+
+            //Declaring food variable
+            let foods = CalorieConverter.find(txtFoodItem)
+
+            // Declaring tableData variable in the table format for results section
+            let tableData = `
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Calories</th>                   
+                            </tr>
+                        </thead>
+                        <tbody>
+                    `
+                
+            // For/of loop for table with the names/calories of items
+            for (let food of foods)
+                {
+                    let tableRow = `
+                    <tr>
+                        <td>${food.name}</td>
+                        <td>${food.calories}</td>
+                    </tr>`
+                    tableData += tableRow;
+                }
+
+                tableData += "</tbody></table>";
+                document.getElementById("searchResults").innerHTML = tableData;
+            }
+
+            //Event listener if "Enter" key is pressed to invoke the click function.
+            document.addEventListener("keyup", function(event)
+            {
+                
+                if (event.key == "Enter")
+                {
+                    document.getElementById("btnSearch").click();
+                }
+            });
+
+            // Declaring foodList variable
+            let foodList = CalorieConverter.data;
+
+            // This is how the foodList String is built
+            let foodListData = "<i>(Ex: ";
+            for (let food of foodList)
+            {
+                foodListData += `${food.name}, `;
+            }
+            foodListData = `${foodListData.slice(0,-2)})</i>`;
+
+            // Displays foodListData String
+            document.getElementById("foodList").innerHTML = foodListData;
+
+        </script>
+    </body>
+</html>
+

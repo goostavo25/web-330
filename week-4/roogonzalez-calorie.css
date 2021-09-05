@@ -1,0 +1,14 @@
+/**
+    Title: roogonzalez-calorie.css
+    Author: Gustavo Roo Gonzalez
+    Date: 04 September 2021
+    Description: Styling for WEB 330 roogonzalez-calorie.html file.
+ */
+
+/** Styling for foodList. */
+#foodList {
+  float: left;
+  color: #df546a;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
