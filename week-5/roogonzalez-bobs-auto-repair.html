@@ -1,0 +1,171 @@
+<!--
+    Title: roogonzalez-bobs-auto-repair.html
+    Author: Gustavo Roo Gonzalez
+    Date: 11 September 2021
+    Description: Assignment 5.2 roogonzalez-bobs-auto-repair.html file.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <!--Head section with links to CSS pages, google fonts, meta tags and title.-->
+
+  <head>
+    <title>WEB 330 – Enterprise JavaScript II</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Assignment 5.2 - Bob's Auto Repair App" />
+    <meta name="author" content="Gustavo Roo Gonzalez" />
+    <link href="roogonzalez-bobs-auto-repair.css" type="text/css" rel="stylesheet" />
+    <link href="../site.css" type="text/css" rel="stylesheet" />
+    <link href="../theme.css" type="text/css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <!-- Links to JavaScript files. -->
+    <script src="../theme.js"></script>
+    <script src="cart-component.js"></script>
+  </head>
+
+  <body class="light-theme">
+    <!-- Application Section -->
+    <div class="assign-container">
+      <!--Site Title-->
+      <h1 class="app-header">Welcome to Bob’s Automotive Repair Shop!</h1>
+      <div class="assign-content">
+        <div class="card">
+          <!-- Title for main card-->
+          <div class="card-title">
+            Product Listing<br />
+            <!--Cart Icon-->
+            <cart-component></cart-component>
+          </div>
+
+          <div class="card-content">
+            <div class="form">
+              <div class="form-field">
+                <!-- Form Label/Title -->
+                <label id="form-field" for="productList">Choose a product:</label>
+
+                <!-- Drop down list of products -->
+                <select name="productList" id="productList" class="drop-down-menu">
+                  <option value="Select">--Select--</option>
+                  <option value="19.99">Oil Change</option>
+                  <option value="18.44">Filter Replacement</option>
+                  <option value="9.99">Wiper Fluid Refill</option>
+                </select>
+              </div>
+
+              <!-- Cart message -->
+              <i id="cart-message">To view your shopping cart click on the cart icon</i>
+
+              <div class="form-field">
+                <!-- 'Add to cart' Button information -->
+                <button type="button" class="btn btn-primary full-width input" id="btnAddProduct">Add to Cart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+
+        <!--Return to home link-->
+        <a class="return-home" href="../index.html">Return</a>
+      </div>
+    </div>
+
+    <!-- Results Section-->
+    <div class="assign-container">
+      <div class="assign-content">
+        <div class="card">
+          <!--Title of results card-->
+          <div class="card-title">Shopping Cart</div>
+          <br />
+
+          <!-- Area where results are displayed in a table -->
+          <div class="card-content" id="shoppingCart">
+            <table class="table table-hover">
+              <thead></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript Section -->
+
+    <script type="module">
+      setSelectedTheme();
+
+      // Importing product module
+      import { Product } from "./product.js";
+
+      // Importing shopping-cart module
+      import { ShoppingCart } from "./shopping-cart.js";
+
+      // Declaring shoppingCart variable
+      let shoppingCart = new ShoppingCart();
+
+      // Call setCartCount function
+      setCartCount();
+
+      // On click function when clicking Add to Cart button
+      document.getElementById("btnAddProduct").onclick = function () {
+        // Declaring productList variable.
+        let productList = document.getElementById("productList");
+
+        // Declaring product variable.
+        let product = productList.options[productList.selectedIndex].text;
+
+        // Decalaring productValue variable
+        let productValue = productList.options[productList.selectedIndex].value;
+
+        // If product is not equal to --Select-- then adds the product to the cart
+        if (product != "--Select--") {
+          shoppingCart.add(new Product(product, productValue));
+
+          // Calls setCartCount function to count items in cart
+          setCartCount();
+
+          // Creates Alert saying product was added to your cart.
+          alert(`${product} was added to your shopping cart!`);
+
+          productList.value = "Select";
+        }
+      };
+
+      // setCartCount function.
+      function setCartCount() {
+        document.getElementById("cart-count").innerHTML = shoppingCart.count();
+      }
+
+      // On click function for cartIcon to display table of products added to cart.
+      document.getElementById("cartIcon").onclick = function () {
+        // Declaring cartDisplayTable variable.
+        let cartDisplayTable = `
+                    <table class="table table-hover">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                        </tr>`;
+
+        // Loop through the products in the shopping cart.
+        for (let product of shoppingCart) {
+          // Creates tableRow.
+          let tableRow = `
+                        <tr>
+                            <td>${product.id}</td>
+                            <td>${product.name}</td>
+                            <td>${product.price}</td>
+                        </tr>`;
+
+          cartDisplayTable += tableRow;
+        }
+
+        cartDisplayTable += "</table>";
+
+        // Displays cartDisplayTable.
+        document.getElementById("shoppingCart").innerHTML = cartDisplayTable;
+      };
+    </script>
+  </body>
+</html>

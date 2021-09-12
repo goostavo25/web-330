@@ -1,0 +1,19 @@
+/**
+    Title: roogonzalez-bobs-auto-repair.css
+    Author: Gustavo Roo Gonzalez
+    Date: 11 September 2021
+    Description: Styling for WEB 330 Assignment 5.2 roogonzalez-bobs-auto-repair.html file.
+*/
+
+/** Styling for cart-message. */
+#cart-message {
+  float: right;
+  color: #df546a;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+/** Styling for hovering over cart-message. */
+i:hover {
+  cursor: pointer;
+}
