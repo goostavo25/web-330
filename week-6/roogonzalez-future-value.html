@@ -1,0 +1,187 @@
+<!--
+======================================================================
+;  Title: roogonzalez-future-value.html
+;  Author: Gustavo Roo Gonzalez
+;  Date: 19 September 2021
+;  Description: Assignment 6.2 roogonzalez-future-value.html 
+======================================================================
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Document Header -->
+  <head>
+    <title>WEB 330 Enterprise JavaScript II</title>
+    <meta charset="UTF-8" />
+
+    <link rel="stylesheet" type="text/css" href="../theme.css" />
+    <link rel="stylesheet" type="text/css" href="../site.css" />
+    <link rel="stylesheet" type="text/css" href="../week-6/roogonzalez-future-value.css" />
+    <link rel="stylesheet" type="text/css" href="../flex-layout.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+    <!-- JavaScript files -->
+    <script src="../theme.js"></script>
+    <script src="finance-calculator.js" type="module"></script>
+    <script src="float-field.js" type="module"></script>
+    <script src="float-max-field.js" type="module"></script>
+    <script src="float-min-field.js" type="module"></script>
+    <script src="required-field.js" type="module"></script>
+    <script src="validator.js" type="module"></script>
+  </head>
+
+  <body class="light-theme">
+    <div class="assign-container">
+      <!--Main Content Site title-->
+      <h1 class="app-header">Welcome to the Future Value App!</h1>
+      <div class="assign-content">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <!-- Card Title -->
+                <div class="card-title">Future Value Calculator</div>
+                <div class="row">
+                  <div class="col-12 danger" id="errorLog"></div>
+                </div>
+
+                <!-- Labels and text boxes for user inputs -->
+                <div class="card-content">
+                  <div class="row">
+                    <div class="col-3"><label class="form-label" for="txtMonthlyPayment">Monthly Payment:</label></div>
+                    <div class="col-9"><input class="input" id="txtMonthlyPayment" name="txtMonthlyPayment" size="25" /></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-3"><label class="form-label" for="txtInterestRate">Interest Rate:</label></div>
+                    <div class="col-9"><input class="input" id="txtInterestRate" name="txtInterestRate" size="25" /></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-7"><i class="danger">Enter 11.1% as 11.1</i></div>
+                  </div>
+
+                  <!-- Drop down menu for number of years -->
+                  <div class="row">
+                    <div class="col-3"><label class="form-label" for="txtNumOfYears">Number Of Years:</label></div>
+                    <div class="col-9">
+                      <select class="input" id="txtNumOfYears" name="txtNumOfYears">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Calculate button -->
+                  <div class="row">
+                    <div class="col-7">
+                      <button type="button" class="btn btn-primary full-width input form-field" id="btnCalculate">Calculate</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br />
+        <!-- Link to the Landing Page. -->
+        <a class="return-home" href="../index.html">Return</a>
+        <br />
+
+        <!-- Results Section -->
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <!-- Card title -->
+                <div class="card-title">Calculation as of <span id="today"></span></div>
+                <!--Future Value Data-->
+                <div class="card-content" id="futureValue" style="text-align: center; font-size: 24px"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript Section -->
+    <script type="module">
+      setSelectedTheme();
+
+      // Importing classes
+      import { FinanceCalculator } from "./finance-calculator.js";
+      import { Validator } from "./validator.js";
+
+      // Date id object
+      document.getElementById("today").innerHTML = new Date().toLocaleDateString("en-US");
+
+      // Onclick function for "Calculate" button
+      document.getElementById("btnCalculate").onclick = function () {
+        // Declaring necessary variables
+        let monthlyPayment = document.getElementById("txtMonthlyPayment").value;
+        let rate = document.getElementById("txtInterestRate").value;
+        let years = document.getElementById("txtNumOfYears").value;
+        let errorLogEl = document.getElementById("errorLog");
+
+        // Assigning Validator class to the variable monthlyPaymentValidator
+        const monthlyPaymentValidator = new Validator("Monthly Payment", monthlyPayment);
+
+        // Calling the addRequiredField, addRequiredFloatField, and AddFloatMinField functions on the monthlyPaymentValidator.
+        monthlyPaymentValidator.addRequiredField();
+        monthlyPaymentValidator.addRequiredFloatField();
+        monthlyPaymentValidator.addFloatMinField(100);
+
+        // Assigning Validator class to the variable rateValidator
+        const rateValidator = new Validator("Interest Rate", rate);
+
+        // Calling the addRequiredField, addRequiredFloatField, and AddFloatMinField functions on the rateValidator
+        rateValidator.addRequiredField();
+        rateValidator.addRequiredFloatField();
+        rateValidator.addFloatMaxField(100);
+
+        // Empty errorLog array
+        let errorLog = [];
+
+        // Push message into the messages array if the monthlyPaymentValidator does not validate
+        if (!monthlyPaymentValidator.validate()) {
+          for (let msg of monthlyPaymentValidator._messages) {
+            errorLog.push(msg);
+          }
+        }
+
+        // Push the message into the messages array if rate Validator does not validate
+        if (!rateValidator.validate()) {
+          for (let msg of rateValidator._messages) {
+            errorLog.push(msg);
+          }
+        }
+
+        // If rateValidator and monthlyPaymentValidator are true, display futureValue
+        if (rateValidator.validate() == true && monthlyPaymentValidator.validate() == true) {
+          errorLogEl.innerHTML = "";
+          let futureValue = FinanceCalculator.calculateFutureValue(monthlyPayment, rate, years);
+          let convertedValue = FinanceCalculator.convertToCurrency(futureValue);
+
+          document.getElementById("futureValue").innerHTML = `The future value is ${convertedValue}`;
+        } else {
+          // Else / Display errors
+          errorLogEl.innerHTML = "";
+          let errorLogMessage = "<ul>";
+          for (let error of errorLog) {
+            errorLogMessage += `<li>${error}</li>`;
+          }
+          errorLogMessage += "</ul>";
+
+          errorLogEl.innerHTML = errorLogMessage;
+        }
+      };
+    </script>
+  </body>
+</html>

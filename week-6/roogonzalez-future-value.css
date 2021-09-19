@@ -1,0 +1,22 @@
+/**
+=====================================================================
+;  Title: roogonzalez-future-value.css
+;  Author: Gustavo Roo Gonzalez
+;  Date: 19 September 2021
+;  Description: Styling for roogonzalez-future-value.html file
+======================================================================
+*/
+
+/** Styling for error messages. */
+.danger {
+  float: right;
+  color: #df546a;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+/** Styling for labels in forms. */
+.form-label {
+  display: inline-block;
+  padding-top: 1rem;
+}
