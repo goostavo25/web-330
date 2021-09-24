@@ -1,0 +1,162 @@
+<!--
+;==================================================================
+;    Title: roogonzalez-whatabook1.html
+;    Author: Gustavo Roo Gonzalez
+;    Date: 24 September 2021
+;    Description: Assignment 7.2 roogonzalez-whatabook1.html file
+;==================================================================
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Document Header-->
+  <head>
+    <title>WEB 330 Enterprise JavaScript II</title>
+    <meta charset="UTF-8" />
+
+    <!-- Links to style sheets/font -->
+    <link rel="stylesheet" type="text/css" href="../theme.css" />
+    <link rel="stylesheet" type="text/css" href="../site.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+    <!--JavaScript files-->
+    <script src="../theme.js"></script>
+  </head>
+
+  <body class="light-theme">
+    <div class="assign-container">
+      <!--Site Title-->
+      <h1 class="app-header">Welcome to Bob’s Automotive Repair Shop!</h1>
+      <div class="assign-content">
+        <div class="container">
+          <div class="card">
+            <!-- Card Title -->
+            <div class="card-title">Book Listing</div>
+            <!--Table where book names are displayed-->
+            <div class="card-content" id="bookList">
+              <table class="table table-hover">
+                <thead></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <br />
+
+        <!-- Link  to the Landing Page. -->
+        <a class="return-home" href="../index.html">Return</a>
+      </div>
+
+      <!-- Second card -->
+      <div class="assign-container">
+        <div class="assign-content">
+          <div class="card">
+            <div class="container">
+              <div class="card">
+                <!-- Card title -->
+                <div class="card-title">Selected Book <span id="today"></span></div>
+                <!--Where info for selected book is displayed-->
+                <div class="card-content" id="selectedBook" style="text-align: center; font-size: 24px"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript Section-->
+    <script>
+      setSelectedTheme();
+
+      // Creating event listener
+      window.addEventListener("DOMContentLoaded", () => {
+        // Declaring variable fileName
+        let fileName = "books.xml";
+
+        // Fetch API
+        fetch(fileName)
+          .then((res) => res.text())
+          .then((data) => {
+            let domParser = new DOMParser();
+            let xmlBooks = domParser.parseFromString(data, "text/xml");
+            loadBooks(xmlBooks);
+            addIsbnClickEvents();
+          });
+      });
+
+      // Creating loadBooks function
+      function loadBooks(xml) {
+        let books = xml.getElementsByTagName("book");
+
+        // Declare tableData variable
+        let tableData = `
+            <table id="bookTable" class="table table-hover">
+                <tr>
+                    <th>ISBN</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Pages</th>
+                    <th>Authors</th>
+                </tr>
+                `;
+
+        for (let book of books) {
+          // Declaring all needed variables for table
+          let isbn = book.getElementsByTagName("isbn")[0].childNodes[0].nodeValue;
+          let title = book.getElementsByTagName("title")[0].childNodes[0].nodeValue;
+          let description = book.getElementsByTagName("description")[0].childNodes[0].nodeValue;
+          let pages = book.getElementsByTagName("pages")[0].childNodes[0].nodeValue;
+          let authors = book.getElementsByTagName("authors")[0].childNodes[0].nodeValue;
+
+          // Embed information into tableData
+          tableData += `
+                <tr>
+                    <td data-value="ISBN"><a href="#" class="isbn-link">${isbn}</a></td>
+                    <td data-value="Title">${title}</td>
+                    <td data-value="Description">${description}</td>
+                    <td data-value="Pages">${pages}</td>
+                    <td data-value="Authors">${authors}</td>
+                </tr>
+                `;
+        }
+
+        // Close table.
+        tableData += "</table>";
+
+        // Match ID bookList to tableData
+        document.getElementById("bookList").innerHTML = tableData;
+      }
+
+      // Creating function anchorClicked
+      function anchorClicked(e) {
+        e.preventDefault();
+
+        // Declaring needed variables
+        let self = this;
+        let cell = self.parentElement;
+        let row = cell.parentElement;
+        let data = row.querySelectorAll("td");
+        let bookData = "<ul style='list-style-type: none; text-align: left;'>";
+
+        // For Loop to Display Book Info
+        for (let field of data) {
+          bookData += `<li><b>${field.dataset.value}</b>: ${field.textContent}</li>`;
+        }
+
+        bookData += "</ul>";
+
+        document.getElementById("selectedBook").innerHTML = bookData;
+      }
+
+      // Creating addIsbnClickEvents function
+      function addIsbnClickEvents() {
+        let viewButtons = document.querySelectorAll("#bookTable tbody .isbn-link");
+
+        for (let index = 0; index < viewButtons.length; index++) {
+          let viewButton = viewButtons[index];
+          viewButtons[index].addEventListener("click", anchorClicked);
+        }
+      }
+    </script>
+  </body>
+</html>
