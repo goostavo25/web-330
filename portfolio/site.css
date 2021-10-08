@@ -2,7 +2,7 @@ body {
   color: #000;
   font-family: "Oswald", Verdana, Arial, sans-serif;
   margin: 0;
-  padding-top: 200px;
+  padding-top: 120px;
 }
 
 /** STYLING FOR HEADER **/
@@ -14,7 +14,7 @@ body {
   width: 100%;
   background: #328cc1;
   z-index: 10000;
-  height: 170px;
+  height: 100px;
   overflow: hidden;
   -webkit-transition: height 0.3s;
   -moz-transition: height 0.3s;
@@ -38,7 +38,7 @@ body {
 /* We just have one-lined elements, so we'll center the elements with the line-height set to the height of the header */
 .cbp-af-header h1,
 .cbp-af-header nav a {
-  line-height: 200px;
+  line-height: 100px;
 }
 
 .cbp-af-header h1 {
@@ -283,6 +283,11 @@ body {
   text-align: center;
 }
 
+.card-content-about {
+  padding: 3px 16px;
+  text-align: left;
+}
+
 .card:hover {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
@@ -340,8 +345,16 @@ img {
   text-align: center;
 }
 
+.justify {
+  text-align: left;
+}
+
 .clearfix {
   overflow: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
 
 img:hover {
