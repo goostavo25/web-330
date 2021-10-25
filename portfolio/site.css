@@ -315,6 +315,23 @@ body {
   color: #4f3674;
 }
 
+.return-button {
+  background-color: #0b3c5d;
+  color: #d6a800;
+  text-decoration: none;
+  font-size: 15px;
+  padding: 8px;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: #d6a800;
+}
+
+.return-button:hover {
+  background-color: #d6a800;
+  color: #0b3c5d;
+  border-color: #0b3c5d;
+}
+
 .input {
   padding: 12px 20px;
   margin: 8px 0;
